@@ -19,9 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 
-Route::get('/websitelist', function () {
-    return view('websitelist');
-});
+Route::get('/websitelist', array('uses' => 'WebsiteController@index'));
 
 Route::get('/add_new_website', function () {
     return view('add_new_website');

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class WebsiteController extends Controller
 {
@@ -17,17 +19,34 @@ class WebsiteController extends Controller
         $this->middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function index(){
+        $website = DB::table('website')->get();
+
+        return view('websitelist', array('website' => $website));
+
+    }
+
     public function add_new(Request $request)
     {
+        $message = "";
         $form_data = $request->all();
-        print_r($form_data);
-        // echo "<pre>";
-        // print_r(Auth::user());
-        // echo Auth::user()->name;
+        $website_name = $form_data["website_name"];
+        $website_url = $form_data["website_url"];
+        $current_time = Carbon::now()->format('Y-m-d H:i:s');
+
+        $website_data = DB::table('website')
+            ->where('url', '=', $website_url)
+            ->first();
+
+        if (is_null($website_data)) {
+            DB::table('website')->insert([
+                 ['name' => $website_name, 'url' => $website_url, 'created_at' => $current_time, 'updated_at' => $current_time]
+            ]);
+            $message = "Sucess";
+        }else{
+            $message = "Fail!";
+        }
+        
+        return redirect('websitelist');
     }
 }
