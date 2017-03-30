@@ -49,4 +49,23 @@ class WebsiteController extends Controller
         
         return redirect('websitelist');
     }
+
+    public function edit_website($id){
+        $website_data = DB::table('website')->where('id', '=', $id)->first();
+        return view('edit_website')->with('website_data', $website_data);
+    }
+
+    public function update_website(Request $request){
+        $website_data = $request->all();
+        DB::table('website')
+            ->where('id', $website_data['web_id'])
+            ->update(['name' => $website_data['website_name'], 'url'=>$website_data['website_url']]);
+
+        return redirect('/edit_website/'.$website_data['web_id']);
+    }
+
+    public function delete_website($id){
+        DB::table('website')->where('id', '=', $id)->delete();
+        return redirect('websitelist');
+    }
 }

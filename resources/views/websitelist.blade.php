@@ -33,18 +33,30 @@
                                         <th>Url</th>
                                         <th>Visits</th>
                                         <th>Online</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 <?php
                                     foreach ($website as $web) {
+                                        $online = "offline";
+                                        $host = str_replace("http://", "", $web->url);
+                                        $host = str_replace("https://", "", $host);
+                                        if($socket =@ fsockopen($host, 80, $errno, $errstr, 30)) {
+                                            $online = 'online';
+                                            fclose($socket);
+                                        }
                                        
                                 ?>
                                     <tr>
                                         <td>{{$web->name}}</td>
                                         <td>{{$web->url}}</td>
-                                        <td>1.0000.0000</td>
-                                        <td>Online</td>
+                                        <td>1.000.000</td>
+                                        <td>{{$online}}</td>
+                                        <td>
+                                            <a href="{{url('delete_website').'/'.$web->id}}">Delete</a>&nbsp;
+                                            <a href="{{url('edit_website').'/'.$web->id}}">Edit</a>
+                                        </td>
                                     </tr>
                                 <?php
                                     }
