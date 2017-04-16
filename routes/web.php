@@ -27,7 +27,7 @@ Route::get('/add_new_website', function () {
 
 Route::get('/edit_website/{id}', array('uses' => 'WebsiteController@edit_website'));
 Route::post('/update_website', array('uses' => 'WebsiteController@update_website'));
-
 Route::get('/delete_website/{id}', array('uses' => 'WebsiteController@delete_website'));
-
 Route::post('/add_new_website', array('uses' => 'WebsiteController@add_new'));
+Route::get('/show_info/{id}', array('uses' => 'WebsiteController@show_info'));
+Route::get('/send_email/{id}', array('uses' => 'EmailController@sendEmailReminder'));

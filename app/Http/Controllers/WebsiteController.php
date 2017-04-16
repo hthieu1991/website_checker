@@ -68,4 +68,9 @@ class WebsiteController extends Controller
         DB::table('website')->where('id', '=', $id)->delete();
         return redirect('websitelist');
     }
+
+    public function show_info($id){
+         $website_data = DB::table('count_view')->where('web_id', '=', $id)->get();
+        return view('showinfo')->with('website_data', $website_data);
+    }
 }
